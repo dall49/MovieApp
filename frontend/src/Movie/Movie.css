@@ -1,0 +1,60 @@
+.Movies{
+    width: 210px;
+    height: 310px;
+    margin-left:120px;
+    margin-top: 40px;
+    padding-bottom:200px;
+    background-size: 100% 100%;
+    float: left;
+}
+
+.Movies:hover{
+    background-color: red;
+    cursor: pointer;
+}
+
+.Ratings{
+    width: 60px;
+    height:30px;
+    margin-left: 80px; 
+    background-color: #ffb10a;
+    border-radius: 40%;
+    margin-top: -10px;
+    position: absolute;
+    text-align: center;
+    color: white;
+    font-weight:bold
+}
+
+
+.MovieContainer{
+    background-color:rgba(180, 211, 44, 0);
+    height: 310px;
+    width: 100%;
+}
+
+.MovieContainer:hover{
+    background-color:rgba(180, 211, 44, .3);
+}
+
+.MovieContainer:hover .Medit{
+    visibility: visible;
+}
+
+.Medit{
+    margin-top: 125px;
+    margin-left: 90px;
+    font-size: 40px;
+    color: white;
+    visibility: hidden;
+    float: left;
+}
+
+.Mdelete{
+    position: absolute;
+    float: right;
+    font-size: 20px;
+    margin-left: 203px;
+    margin-top: -9px;
+    color: red;
+}
