@@ -11,8 +11,8 @@ if not os.path.exists('movie.db'):
     print('Setting up...')
     Database().setup()
 
-api.add_resource(Movies , '/movies')
-api.add_resource(Categories , '/categories')
+api.add_resource(Movies , '/movies' , '/movies/<string:id>')
+api.add_resource(Categories , '/categories' , '/categories/<string:id>')
 
 if __name__ == '__main__':
     host = '0.0.0.0'
