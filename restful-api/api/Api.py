@@ -31,13 +31,12 @@ class Api(ABC,Resource,metaclass=FinalMeta):
         return self.model.get_by_id(id) , 201
     
     def delete(self,id=None):
-        self.model.delete() if id is None else self.model.delete_by_id()
+        self.model.delete() if id is None else self.model.delete_by_id(id)
 
         return 204
 
     def put(self,id):
         data = self.sanitize_data()
-        print(data)
         self.model.update(id,data)
 
-        return 204
+        return self.model.get_by_id(id) , 200

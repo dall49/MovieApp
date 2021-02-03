@@ -33,8 +33,8 @@ class Category(Database):
         data = self.cursor.fetchone()
         return self.formatone(data)
 
-    def create(self,fields):
-        name = fields
+    def create(self,data):
+        name = data
 
         sql = 'insert into categories (name) values (?)'
         self.cursor.execute(sql,[name,])

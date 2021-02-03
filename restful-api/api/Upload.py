@@ -32,4 +32,4 @@ class Upload(Resource):
         filename = secure_filename(filename)
         file.save( os.path.join(self.upload_dir,filename) )
 
-        return {'status':'success','message':'File uploaded successfully'} , 201
+        return {'status':'success','filename':filename } , 201

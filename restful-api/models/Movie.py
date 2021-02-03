@@ -54,14 +54,14 @@ class Movie(Database):
        
     def create_category(self,name):
         sql = 'insert into categories (name) values (?);'
-        self.cursor.execute(sql,[category,])
+        self.cursor.execute(sql,[name,])
         self.connection.commit()
 
-    def create(self,fields):
-        title,rating,image,category = fields
+    def create(self,data):
+        title,rating,image,category = data
 
         category_id = self.get_category_id(category)
-        if category_id is None:
+        if category_id == False:
             self.create_category(category)
             category_id = self.get_category_id(category)
 
