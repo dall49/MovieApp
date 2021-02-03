@@ -7,9 +7,13 @@ class FinalMeta(type(ABC), type(Resource)):
 
 class Api(ABC,Resource,metaclass=FinalMeta):
 
-    def __init__(self,database_url):
-        self.database_url = database_url
-        self.create_model()
+    def __init__(self,config):
+        self.create_model(
+            config['host'],
+            config['user'],
+            config['password'],
+            config['database']
+        )
 
     @abstractmethod
     def create_model(self):

@@ -5,11 +5,11 @@ from flask import request
 
 class Categories(Api):
 
-    def __init__(self,database_url):
-        super().__init__(database_url)
+    def __init__(self,config):
+        super().__init__(config)
 
-    def create_model(self):
-        self.model = Category(self.database_url)
+    def create_model(self,host,user,password,database):
+        self.model = Category(host,user,password,database)
     
     def sanitize_data(self):
         data = ( 
