@@ -37,20 +37,45 @@ class Sidebar extends Component {
 
   addmovie(event) {
     event.preventDefault();
-    fetch('../image.php', {
-      method: "POST",
-      body: new FormData(document.getElementById('addMov'))
-    }).then((res) => {
-      if (res.ok){
-        alert('we got the answer!');
-      } 
-      else{
-        console.log(res.status);
-        alert("FAILURE");
-        console.log(res.statusText);
-        console.log(res.type);
-      }
-    })
+    const files = event.target.file.files
+    const title = event.target.title.value
+    const rating = event.target.rating.value
+    const category = event.target.categorie.value
+    //event.target.NAMEOFINPUTFORIMAGE.files
+			const formImg = new FormData()
+			formImg.append('file', files[0])
+			fetch('http://localhost:5000/upload', {
+				method: 'POST',
+				body: formImg
+			})
+			.then(response => response.json())
+			.then(data => {
+        
+        //UPLOAD IMAGE DONE, WE NEED TO POST SEND MOVIE INFO TO API NOW
+        const image_name = data.filename //the previous POST returns the uploaded file name
+
+        const formAdd = new FormData()
+        formAdd.append('title', title)
+        formAdd.append('rating', rating)
+        formAdd.append('image', image_name)
+        formAdd.append('category',category)
+
+        fetch('http://localhost:5000/movies', {
+          method: 'POST',
+          body: formAdd
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+        })
+
+
+			})
+			.catch(error => {
+        console.error(error)
+        console.log(formImg)
+			})
+
   }
 
   componentDidMount(){
@@ -105,16 +130,24 @@ class Sidebar extends Component {
           <form class="px-4 py-3" id="addMov" onSubmit={this.addmovie}>
                 <div class="form-group">
                   <label for="movTitle">Movie Title</label>
-                  <input type="text" class="form-control" id="createTitle"  />
+                  <input name="title" type="text" class="form-control" id="createTitle"  />
                 </div>
+
                 <div class="form-group" >
                   <label for="movRating">Ratings</label>
-                  <input class="form-control" type="number" step="0.1" id="createRatings" defaultValue="5"  />
+                  <input name="rating" class="form-control" type="number" step="0.1" id="createRatings" defaultValue="5"  />
                 </div>
+
+                <div class="form-group" >
+                  <label for="movCat">Categorie</label>
+                  <input name="categorie" class="form-control" type="text"  id="createCategorie" defaultValue="Action"  />
+                </div>
+
+
                 
                   <div class="form-group">
                     <label for="exampleFormControlFile1">Cover Image</label>
-                    <input type="file" class="form-control-file" id="createImage" />
+                    <input name="file" type="file" class="form-control-file" id="createImage" />
                   </div>
                 
                 
