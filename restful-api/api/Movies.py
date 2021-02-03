@@ -1,6 +1,7 @@
 
 from models import Movie
 from flask_restful import Resource
+from flask import request
 
 class Movies(Resource):
 
@@ -13,3 +14,11 @@ class Movies(Resource):
             return self.model.getall()
         else:
             return self.model.getone(id)
+
+    def post(self):
+        title = request.form['title']
+        rating = request.form['rating']
+        image = request.form['image']
+        category = request.form['category']
+
+        return self.model.create(title,rating,image,category)

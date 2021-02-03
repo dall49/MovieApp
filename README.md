@@ -24,14 +24,14 @@ MovieApp is a small CRUD app that allows you to create a movie and see your save
 | Field | Type         | Null | KEY     | Default | Extra         |
 |-------|--------------|------|---------|---------|---------------|
 | id    | integer      | no   | primary |         | autoincrement |
-| name  | varchar(100) | no   |         |         |               |
+| name  | varchar(100) | no   |         |         | unique        |
 
 ### Movies Table
 
 | Field       | Type         | Null | KEY     | Default     | Extra         |
 |-------------|--------------|------|---------|-------------|---------------|
 | id          | integer      | no   | primary |             | autoincrement |
-| title       | varchar(100) | no   |         |             |               |
+| title       | varchar(100) | no   |         |             | unique        |
 | image       | varchar(100) | no   |         | default.jpg |               |
 | rating      | float        | no   |         |             |               |
 | category_id | integer      | no   | foreign |             |               |

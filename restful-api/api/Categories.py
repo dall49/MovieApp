@@ -1,6 +1,7 @@
 
 from models import Category
 from flask_restful import Resource
+from flask import request
 
 class Categories(Resource):
 
@@ -14,3 +15,7 @@ class Categories(Resource):
         else:
             return self.model.getone(id)
 
+    def post(self):
+        name = request.form['name']
+
+        return self.model.create(name)
