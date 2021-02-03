@@ -28,20 +28,17 @@ class Category(Database):
         return self.formatall(data)
 
     def getone(self,id):
-        try:
-            sql = 'select * from categories where id = ?;'
-            self.cursor.execute(sql,[id,])
-            data = self.cursor.fetchone()
-            return self.formatone(data)
-        except:
-            return { 'status' : 'failed' }
+        sql = 'select * from categories where id = ?;'
+        self.cursor.execute(sql,[id,])
+        data = self.cursor.fetchone()
+        return self.formatone(data)
 
     def create(self,name):
-        try:
-            sql = 'insert into categories (name) values (?)'
-            self.cursor.execute(sql,[name,])
-            self.connection.commit()
+        sql = 'insert into categories (name) values (?)'
+        self.cursor.execute(sql,[name,])
+        self.connection.commit()
+        
+        sql = 'select id from categories where name = ?;'
+        self.cursor.execute(sql,[name,])
 
-            return { 'status' : 'success' }
-        except:
-            return { 'status' : 'failed' }
+        return self.cursor.fetchone()[0]

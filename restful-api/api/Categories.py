@@ -18,4 +18,6 @@ class Categories(Resource):
     def post(self):
         name = request.form['name']
 
-        return self.model.create(name)
+        id = self.model.create(name)
+
+        return self.model.getone(id)

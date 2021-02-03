@@ -36,45 +36,43 @@ class Movie(Database):
         return self.formatall(data)
 
     def getone(self,id):
-        try:
-            sql = '''
-                select m.id, m.title, m.image, m.rating, c.name
-                from movies m inner join categories c
-                on m.category_id = c.id
-                where m.id = ?;
-            '''
-            self.cursor.execute(sql,[id,])
-            data = self.cursor.fetchone()
-            return self.formatone(data)
-        except:
-            return { 'status' : 'failed' }
+        sql = '''
+            select m.id, m.title, m.image, m.rating, c.name
+            from movies m inner join categories c
+            on m.category_id = c.id
+            where m.id = ?;
+        '''
+        self.cursor.execute(sql,[id,])
+        data = self.cursor.fetchone()
+        return self.formatone(data)
     
     def create(self,title,rating,image,category):
-        try:
-            rating = float( rating )
+        rating = float( rating )
 
-            sql = "select id from categories where name = ?;"
-            self.cursor.execute(sql,[category,])
-            category_id = int( self.cursor.fetchone()[0] )
+        sql = "select id from categories where name = ?;"
+        self.cursor.execute(sql,[category,])
+        category_id = int( self.cursor.fetchone()[0] )
 
-            if image != '':
-                sql = '''
-                    insert into movies (title,rating,image,category_id)
-                    values (?,?,?,?);
-                '''
-                values = [title,rating,image,category_id]
-                self.cursor.execute(sql,values)
-            else:
-                sql = '''
-                    insert into movies (title,rating,category_id)
-                    values (?,?,?);
-                '''
-                values = [title,rating,category_id]
-                self.cursor.execute(sql,values)
+        if image != '':
+            sql = '''
+                insert into movies (title,rating,image,category_id)
+                values (?,?,?,?);
+            '''
+            values = [title,rating,image,category_id]
+            self.cursor.execute(sql,values)
+        else:
+            sql = '''
+                insert into movies (title,rating,category_id)
+                values (?,?,?);
+            '''
+            values = [title,rating,category_id]
+            self.cursor.execute(sql,values)
 
-            self.connection.commit()
-            return { 'status' : 'success' }
-        except:
-            return { 'status' : 'failed' }
+        self.connection.commit()
+
+        sql = 'select id from movies where title = ?;'
+        self.cursor.execute(sql,[title,])
+
+        return self.cursor.fetchone()[0]
 
 

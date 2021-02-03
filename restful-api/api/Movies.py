@@ -21,4 +21,6 @@ class Movies(Resource):
         image = request.form['image']
         category = request.form['category']
 
-        return self.model.create(title,rating,image,category)
+        id = self.model.create(title,rating,image,category)
+
+        return self.model.getone(id)
