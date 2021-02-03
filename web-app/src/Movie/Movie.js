@@ -30,136 +30,77 @@ class Movie extends Component {
   deleteMovie(Mcid){
     console.log(Mcid.title);
 
-    if (window.confirm('Are you sure you want to delete' + Mcid.title + 'from your Movie list ?')) {
-      document.getElementById("MC"+Mcid.id).remove();
-      console.log('Thing was saved to the database.');
+    if (window.confirm('Are you sure you want to delete ' + Mcid.title + ' from your Movie list ?')) {
+      document.getElementById(Mcid.id).style.opacity = "0";
+      document.getElementById(Mcid.id).style.display = "none";
+      
+      //Send request to API to remove Movie from DB containing ID = MCid
+      console.log(document.getElementById("MC"+Mcid.id));
     } else {
       // Do nothing!
       console.log('Thing was not saved to the database.');
     }
   }
 
+  constructor(props){
+    super(props);
+    this.state = {
+      items: [],
+      isLoaded: false,
+    }
+  }
+
+
+
+  componentDidMount(){
+    fetch('http://127.0.0.1:5000/movies')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          isLoaded: true,
+          items: json
+        })
+      })
+  }
+
   render() {
 
-    const Movies = {
-      content: {
-        body: [
-          {
-            
-            title: "Casablanca",
-            rating: "8.5",
-            image: "Casablanca.jpg",
-            id: "0"
-          },
-          {
-            
-            title: "King Kong",
-            rating: "7.2",
-            image: "King_Kong.jpg",
-            id: "1"
-          },
-          {
-            
-            title: "Marriage Story",
-            rating: "7.9",
-            image: "Marriage_Story.jpg",
-            id: "2"
-          },
-          {
-            
-            title: "Interstellar",
-            rating: "8.6",
-            image: "Interstellar.jpg",
-            id: "3"
-          },
-          {
-            
-            title: "Avengers Endgame",
-            rating: "8.4",
-            image: "Avengers.jpg",
-            id: "4"
-          },
-          {
-            
-            title: "Get Out",
-            rating: "7.7",
-            image: "Get_Out.jpg",
-            id: "5"
-          }
-          ,
-          {
-            
-            title: "Titanic",
-            rating: "7.8",
-            image: "Titanic.jpg",
-            id: "6"
-          }
-          ,
-          {
-            
-            title: "Indiana Jones",
-            rating: "8.4",
-            image: "Indiana_Jones.jpg",
-            id: "7"
-          }
-          ,
-          {
-            
-            title: "Godzilla",
-            rating: "6.4",
-            image: "Godzilla.jpg",
-            id: "8"
-          },
-          {
-            
-            title: "Jurassic Park",
-            rating: "8.1",
-            image: "Jurassic_Park.jpg",
-            id: "9"
-          }
-         
+    var { isLoaded, items} = this.state;
+
+    if(!isLoaded){
+      return <React.Fragment>
+        <div class="row justify-content-center" style={{height:"50px",color:"white",marginTop:"260px"}}>
+        <h1>Seems like your Back-End server is offline</h1>
+        </div>
+          <div class="row justify-content-center" style={{height:"500px"}}>
           
+          <img src="https://i.pinimg.com/originals/21/83/f3/2183f3dd15b25d1bfc923199e13f3ef6.png" style={{height:"500px",width:"500px",marginTop:"100px"}} />
+
+          </div> 
+      </React.Fragment>
+    }
+    else{
+     
+      return  <React.Fragment>
+        
+        {items.map(items => (
+
+          <div style={{backgroundImage:"url(img/"+items.image+")"}} class={items.category} id={items.id}>
+            
+            <div class="Ratings">{items.rating}</div> 
+            <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items)}></i>
+              <div class="MovieContainer" id={"MC"+items.id} onClick={this.editMovie.bind(this, items)}  > 
+                  <i class="fas fa-edit Medit"></i>
+              </div>
           
-          
-        ]
-      }
-    };
-
-
-    const items=[]
-
-
-    for (let number of Object.keys(Movies.content.body)){
-      let current_object = Movies.content.body[number];
-      let title = current_object.title;
-      let rating = current_object.rating;
-      let image = "img/" + current_object.image;
-      let id = current_object.id;
-      let MCid = "MC"+id;
-      let Did = "D"+id;
-    
-
-
-        items.push(
-        <div style={{backgroundImage:"url("+image+")"}} class="Movies" id={id}>
-
-          
-          <div class="Ratings">{rating}</div> 
-          <i class="fas fa-times Mdelete" id={Did} onClick={this.deleteMovie.bind(this, Movies.content.body[number])}></i>
-          
-          <div class="MovieContainer" id={MCid} onClick={this.editMovie.bind(this, Movies.content.body[number])}  > 
-              <i class="fas fa-edit Medit"></i>
           </div>
-        </div>)
 
+      ))} 
       
-      
+      </React.Fragment>
+
 
     }
-
-    return <React.Fragment>{items}</React.Fragment>
-
-
     
   }
 }
