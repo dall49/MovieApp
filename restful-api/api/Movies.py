@@ -1,26 +1,22 @@
 
 from models import Movie
-from flask_restful import Resource
+from api import Api
 from flask import request
 
-class Movies(Resource):
+class Movies(Api):
 
     def __init__(self,database_url):
-        self.model = Movie(database_url)
+        super().__init__(database_url)
 
-    def get(self,id=None):
+    def create_model(self):
+        self.model = Movie(self.database_url)
 
-        if id is None:
-            return self.model.getall()
-        else:
-            return self.model.getone(id)
+    def sanitize_data(self):
+        data = (
+            request.form['title'].lower().capitalize(),
+            float( request.form['rating'] ),
+            request.form['image'].lower(),
+            request.form['category'].lower().capitalize()
+        )
 
-    def post(self):
-        title = request.form['title']
-        rating = request.form['rating']
-        image = request.form['image']
-        category = request.form['category']
-
-        id = self.model.create(title,rating,image,category)
-
-        return self.model.getone(id)
+        return data

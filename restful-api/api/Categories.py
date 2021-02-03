@@ -1,23 +1,20 @@
 
 from models import Category
-from flask_restful import Resource
+from api import Api
 from flask import request
 
-class Categories(Resource):
+class Categories(Api):
 
     def __init__(self,database_url):
-        self.model = Category(database_url)
+        super().__init__(database_url)
+
+    def create_model(self):
+        self.model = Category(self.database_url)
     
-    def get(self,id=None):
+    def sanitize_data(self):
+        data = ( 
+            request.form['name'].lower().capitalize()
+        )
 
-        if id is None:
-            return self.model.getall()
-        else:
-            return self.model.getone(id)
+        return data
 
-    def post(self):
-        name = request.form['name']
-
-        id = self.model.create(name)
-
-        return self.model.getone(id)

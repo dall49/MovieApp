@@ -21,19 +21,21 @@ class Category(Database):
 
         self.connection.commit()
 
-    def getall(self):
+    def get(self):
         sql = 'select * from categories;'
         self.cursor.execute(sql)
         data = self.cursor.fetchall()
         return self.formatall(data)
 
-    def getone(self,id):
+    def get_by_id(self,id):
         sql = 'select * from categories where id = ?;'
         self.cursor.execute(sql,[id,])
         data = self.cursor.fetchone()
         return self.formatone(data)
 
-    def create(self,name):
+    def create(self,fields):
+        name = fields
+
         sql = 'insert into categories (name) values (?)'
         self.cursor.execute(sql,[name,])
         self.connection.commit()
@@ -42,3 +44,27 @@ class Category(Database):
         self.cursor.execute(sql,[name,])
 
         return self.cursor.fetchone()[0]
+    
+    def delete(self):
+        sql = 'delete from movies;'
+        self.cursor.execute(sql)
+        sql = 'delete from categories;'
+        self.cursor.execute(sql)
+        self.connection.commit()
+
+    def delete_by_id(self,id):
+        sql = 'delete from movies where category_id = ?;'
+        self.cursor.execute(sql,[id,])
+        sql = 'delete from categories where id = ?;'
+        self.cursor.execute(sql,[id,])
+        self.connection.commit()
+
+
+    def update(self,id,data):
+        name = data
+        sql = 'update categories set name = ? where id = ?;'
+        data = [name,id]
+        self.cursor.execute(sql,data)
+        self.connection.commit()
+
+

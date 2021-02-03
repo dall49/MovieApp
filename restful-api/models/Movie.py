@@ -25,7 +25,7 @@ class Movie(Database):
 
         self.connection.commit()
 
-    def getall(self):
+    def get(self):
         sql = '''
             select m.id, m.title, m.image, m.rating, c.name as 'category'
             from movies m inner join categories c
@@ -35,7 +35,7 @@ class Movie(Database):
         data = self.cursor.fetchall()
         return self.formatall(data)
 
-    def getone(self,id):
+    def get_by_id(self,id):
         sql = '''
             select m.id, m.title, m.image, m.rating, c.name
             from movies m inner join categories c
@@ -45,13 +45,25 @@ class Movie(Database):
         self.cursor.execute(sql,[id,])
         data = self.cursor.fetchone()
         return self.formatone(data)
-    
-    def create(self,title,rating,image,category):
-        rating = float( rating )
 
+    def get_category_id(self,name):
         sql = "select id from categories where name = ?;"
+        self.cursor.execute(sql,[name,])
+        fetched = self.cursor.fetchone()
+        return False if fetched is None else fetched[0]
+       
+    def create_category(self,name):
+        sql = 'insert into categories (name) values (?);'
         self.cursor.execute(sql,[category,])
-        category_id = int( self.cursor.fetchone()[0] )
+        self.connection.commit()
+
+    def create(self,fields):
+        title,rating,image,category = fields
+
+        category_id = self.get_category_id(category)
+        if category_id is None:
+            self.create_category(category)
+            category_id = self.get_category_id(category)
 
         if image != '':
             sql = '''
@@ -74,5 +86,31 @@ class Movie(Database):
         self.cursor.execute(sql,[title,])
 
         return self.cursor.fetchone()[0]
+
+    def delete(self):
+        sql = 'delete from movies;'
+        self.cursor.execute(sql)
+        self.connection.commit()
+
+    def delete_by_id(self,id):
+        sql = 'delete from movies where id = ?;'
+        self.cursor.execute(sql,[id,])
+        self.connection.commit()
+
+    def update(self,id,data):
+        title,rating,image,category = data
+
+        category_id = self.get_category_id(category)
+        if category_id is None:
+            self.create_category(category)
+            category_id = self.get_category_id(category)
+
+        sql = '''
+            update movies set title = ? , rating = ? , image = ? , category_id = ?
+            where id = ?;
+            '''
+        data = [title,rating,image,category_id,id]
+        self.cursor.execute(sql,data)
+        self.connection.commit()
 
 
