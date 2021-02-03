@@ -1,4 +1,4 @@
-.Movies{
+.Romantic,.Thriller,.Drama,.Action,.Adventure{
     width: 210px;
     height: 310px;
     margin-left:120px;
@@ -6,6 +6,7 @@
     padding-bottom:200px;
     background-size: 100% 100%;
     float: left;
+    opacity: 1;
 }
 
 .Movies:hover{
@@ -35,6 +36,7 @@
 
 .MovieContainer:hover{
     background-color:rgba(180, 211, 44, .3);
+    cursor: pointer;
 }
 
 .MovieContainer:hover .Medit{
@@ -57,4 +59,6 @@
     margin-left: 203px;
     margin-top: -9px;
     color: red;
+    cursor: pointer;
 }
+
