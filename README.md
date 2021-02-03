@@ -3,6 +3,7 @@
 
 * Description
 * Technologies
+* Database Schema
 * Setup
 
 ## Description
@@ -15,6 +16,25 @@ MovieApp is a small CRUD app that allows you to create a movie and see your save
 	* Flask RESTful
 * Database
 	* Sqlite
+
+## Database Schema
+
+### Categories Table
+
+| Field | Type         | Null | KEY     | Default | Extra         |
+|-------|--------------|------|---------|---------|---------------|
+| id    | integer      | no   | primary |         | autoincrement |
+| name  | varchar(100) | no   |         |         |               |
+
+### Movies Table
+
+| Field       | Type         | Null | KEY     | Default     | Extra         |
+|-------------|--------------|------|---------|-------------|---------------|
+| id          | integer      | no   | primary |             | autoincrement |
+| title       | varchar(100) | no   |         |             |               |
+| image       | varchar(100) | no   |         | default.jpg |               |
+| rating      | float        | no   |         |             |               |
+| category_id | integer      | no   | foreign |             |               |
 
 ## Setup
 
