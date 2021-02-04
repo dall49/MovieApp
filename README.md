@@ -47,7 +47,7 @@ Install python 3.x and pip on your system and follow these steps
 
 * Step 1 : Make sure you are on the right directory ```restful-api/```
 * Step 2 : Install globally the awesome tool : pipenv ```pip install pipenv```
-* Step 3 : Setup your project : ```pipenv install```
+* Step 3 : Create a virtual environement and install dependencies : ```pipenv install```
 * Step 4 : Activate the virtual environement : ```pipenv shell```
 * Step 5 : Run the dev server : ```python app.py```
 
@@ -65,5 +65,6 @@ followed by Step 2
 Make sure you have the lastest version of npm and nodejs installed on your system
 
 * Step 1 : Make sure you are on the right directory ```web-app/```
-* Step 2 : Run the dev server with : ```npm start```
+* Step 2 : Install the dependencies : ```npm install```
+* Step 3 : Run the dev server with : ```npm start```
 
