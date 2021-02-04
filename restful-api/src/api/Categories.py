@@ -4,17 +4,22 @@ from api import Api
 from flask import request
 
 class Categories(Api):
+    
+    def __init__(self,host,user,password,database):
+        super().__init__(host,user,password,database)
 
-    def __init__(self,config):
-        super().__init__(config)
-
-    def create_model(self,host,user,password,database):
-        self.model = Category(host,user,password,database)
+    def create_model(self,config):
+        self.model = Category(
+            config['host'],
+            config['user'],
+            config['password'],
+            config['database']
+        )
     
     def sanitize_data(self):
-        data = ( 
+        data = [
             request.form['name'].lower().capitalize()
-        )
+        ]
 
         return data
 

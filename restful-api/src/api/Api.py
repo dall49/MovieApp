@@ -7,16 +7,18 @@ class FinalMeta(type(ABC), type(Resource)):
 
 class Api(ABC,Resource,metaclass=FinalMeta):
 
-    def __init__(self,config):
+    def __init__(self,host,user,password,database):
         self.create_model(
-            config['host'],
-            config['user'],
-            config['password'],
-            config['database']
+            {
+                'host' : host,
+                'user' : user,
+                'password' : password,
+                'database' : database
+            }
         )
 
     @abstractmethod
-    def create_model(self):
+    def create_model(self,config):
         pass
 
     @abstractmethod
@@ -35,13 +37,13 @@ class Api(ABC,Resource,metaclass=FinalMeta):
         return self.model.get_by_id(id) , 201
     
     def delete(self,id=None):
-        self.model.delete() if id is None else self.model.delete_by_id()
+        self.model.delete() if id is None else self.model.delete_by_id(id)
 
         return 204
 
     def put(self,id):
         data = self.sanitize_data()
-        print(data)
-        self.model.update(id,data)
+        data.append(id)
+        self.model.update(data)
 
-        return 204
+        return self.model.get_by_id(id) , 200

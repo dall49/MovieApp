@@ -6,6 +6,6 @@ database = {
     'database' : 'movieapp'
 }
 
-uploads = {
+upload = {
     'url' : 'img/'
 }
