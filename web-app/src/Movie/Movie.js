@@ -28,11 +28,26 @@ class Movie extends Component {
   }
 
   deleteMovie(Mcid){
-    console.log(Mcid.title);
+
 
     if (window.confirm('Are you sure you want to delete ' + Mcid.title + ' from your Movie list ?')) {
       document.getElementById(Mcid.id).style.opacity = "0";
       document.getElementById(Mcid.id).style.display = "none";
+
+			fetch('http://localhost:5000/movies/'+Mcid.id, {
+				method: 'DELETE'
+			})
+			.then(response => response.json())
+			.then(data => {
+        
+        //UPLOAD IMAGE DONE, WE NEED TO POST SEND MOVIE INFO TO API NOW
+        console.log(data); //the previous POST returns the uploaded file name
+			})
+			.catch(error => {
+        console.error(error);
+        alert("EERRORR");
+			})
+
       
       //Send request to API to remove Movie from DB containing ID = MCid
       console.log(document.getElementById("MC"+Mcid.id));
@@ -41,6 +56,9 @@ class Movie extends Component {
       console.log('Thing was not saved to the database.');
     }
   }
+
+
+		
 
   constructor(props){
     super(props);
