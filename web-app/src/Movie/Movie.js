@@ -14,8 +14,10 @@ class Movie extends Component {
 
   
  
-  editMovie(Mcid){
-    console.log(Mcid.title);
+  editMovie(Mcid, category_list){
+
+    //display of the Pop up div with movie clicked info 
+
     document.getElementById("wrapper").style.opacity = "1";
     document.getElementById("wrapper").style.visibility = "visible";
 
@@ -24,6 +26,26 @@ class Movie extends Component {
     document.getElementById("movTitle").value = Mcid.title;
 
     document.getElementById("movRating").value = Mcid.rating;
+
+    document.getElementById("modify").id = Mcid.id;
+
+
+
+    category_list.unshift("<option name='"+Mcid.category+"'>"+Mcid.category +"</option>"); //Make the clicked movie's category the first in the list
+
+
+
+    category_list = category_list.filter((item, index) => category_list.indexOf(item) === index); //Filter the category list duplicates
+    
+    document.getElementById("movCat").innerHTML = category_list;
+
+    // Sending the Update to the API in the index.html <script> tag when button is clicked
+
+
+    
+
+
+
 
   }
 
@@ -86,32 +108,44 @@ class Movie extends Component {
     var { isLoaded, items} = this.state;
 
     if(!isLoaded){
+      document.getElementById("staticheadcontainer").innerHTML = ""; //hide Searchbar
       return <React.Fragment>
-        <div class="row justify-content-center" style={{height:"50px",color:"white",marginTop:"260px"}}>
+        <div class="row justify-content-center" style={{height:"50px",color:"white",marginTop:"340px"}}>
         <h1>Seems like your Back-End server is offline</h1>
         </div>
           <div class="row justify-content-center" style={{height:"500px"}}>
           
-          <img src="https://i.pinimg.com/originals/21/83/f3/2183f3dd15b25d1bfc923199e13f3ef6.png" style={{height:"500px",width:"500px",marginTop:"100px"}} />
+          <img src="https://i.pinimg.com/originals/21/83/f3/2183f3dd15b25d1bfc923199e13f3ef6.png" style={{height:"500px",width:"500px",marginTop:"190px"}} />
 
           </div> 
       </React.Fragment>
     }
     else{
-     
+
+      //const category_list = {items}.items.category;
+      //console.log(category_list);
+
+      // Keep Our Categories saved in a List 
+      let category_list = []
+      items.forEach(item => category_list.push("<option name='"+item.category+"'>"+item.category +"</option>"));
+      
+
+
       return  <React.Fragment>
         
         {items.map(items => (
+
 
           <div style={{backgroundImage:"url(img/"+items.image+")"}} class={items.category} id={items.id}>
             
             <div class="Ratings">{items.rating}</div> 
             <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items)}></i>
-              <div class="MovieContainer" id={"MC"+items.id} onClick={this.editMovie.bind(this, items)}  > 
+              <div class="MovieContainer" id={"MC"+items.id} onClick={this.editMovie.bind(this, items,category_list)}  > 
                   <i class="fas fa-edit Medit"></i>
               </div>
           
           </div>
+          
 
       ))} 
       

@@ -38,21 +38,24 @@
         
       
       <!-- Page content -->
-      <div class="main">
-        <div class="row justify-content-center">
-          <div style="height: 100px;display: inline;margin-top: 10px;" class="col-md-5">
-            <h1 style="margin-top: 20px;text-align: center;color: white;">New Releases</h1>
+      
+        <div class="main">
+          <div id="staticheadcontainer">
+            <div class="row justify-content-center">
+              <div style="height: 100px;display: inline;margin-top: 10px;" class="col-md-5">
+                <h1 style="margin-top: 20px;text-align: center;color: white;">New Releases</h1>
+              </div>
+            </div>
+        
+            <div class="row justify-content-center">
+              <div style="height: 20px;display: inline;" class="col-md-5">
+                <form class="form-inline my-2 my-lg-0 justify-content-center">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
           </div>
-        </div>
-    
-        <div class="row justify-content-center">
-          <div style="height: 20px;display: inline;" class="col-md-5">
-            <form class="form-inline my-2 my-lg-0 justify-content-center">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
 
         <div style="width: 100%;height: 720px;">
           <div class="row justify-content-center" style="height: 370px;margin-top: 30px;" id="Row">
@@ -91,23 +94,30 @@
             </div>
           </div>
           <div style="float:  left;height: 95%;width: 60%;justify-content: center;align-items: center;display: flex;">
-              <form>
+
+              <form onSubmit="modifyMovie(event)">
                 <div class="form-group">
                   <label for="movTitle">Movie Title</label>
-                  <input type="email" class="form-control" id="movTitle" aria-describedby="emailHelp" placeholder="Enter email">
+                  <input name="title" type="text" class="form-control" id="movTitle" aria-describedby="emailHelp" placeholder="Enter email">
                 </div>
                 <div class="form-group">
                   <label for="movRating">Ratings</label>
-                  <input class="form-control" type="number" step="0.1" id="movRating" value="5" min="1" max="10">
+                  <input name="ratings" class="form-control" type="number" step="0.1" id="movRating" value="5" min="1" max="10">
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Example select</label>
+                  <select name="categorie" class="form-control" id="movCat">
+
+                  </select>
                 </div>
                 
                   <div class="form-group">
                     <label for="exampleFormControlFile1">Cover Image</label>
-                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                    <input name="file" type="file" class="form-control-file" id="exampleFormControlFile1">
                   </div>
                 
                 
-                <button type="submit" class="btn btn-primary" >Modify</button>
+                <button name="idHolder" type="submit" id="modify" class="btn btn-primary"  >Modify</button>
               </form>
             
           </div>
@@ -128,5 +138,60 @@
   </body>
   <script src="https://kit.fontawesome.com/c32d485b14.js" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+  <script>
+      function modifyMovie(event){
+        
+        event.preventDefault();
+
+        const files = event.target.file.files
+        const title = event.target.title.value
+        const rating = event.target.ratings.value
+        const category = event.target.categorie.value
+        const id = event.target.idHolder.id
+
+
+    
+    
+			const formImg = new FormData()
+			formImg.append('file', files[0])
+			fetch('http://localhost:5000/upload', {
+				method: 'POST',
+				body: formImg
+			})
+			.then(response => response.json())
+			.then(data => {
+        
+        //UPLOAD IMAGE DONE, WE NEED TO POST SEND MOVIE INFO TO API NOW
+        const image_name = data.filename //the previous POST returns the uploaded file name
+
+        const formModif = new FormData()
+        formModif.append('title', title)
+        formModif.append('rating', rating)
+        formModif.append('image', image_name)
+        formModif.append('category',category)
+
+        fetch('http://localhost:5000/movies/'+ id, {
+          method: 'PUT',
+          body: formModif
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          document.getElementById("wrapper").style.opacity = "0";
+          document.getElementById("wrapper").style.visibility = "hidden";
+        })
+
+
+			})
+			.catch(error => {
+        console.error(error)
+        console.log(formImg)
+        alert("Sorry ! There was an error submitting your changes ")
+			})
+          
+      }
+
+  </script>
 </html>
