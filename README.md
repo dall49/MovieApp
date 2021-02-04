@@ -7,34 +7,36 @@
 * Setup
 
 ## Description
+
 MovieApp is a small CRUD app that allows you to create a movie and see your saved movies.
 
 ## Technologies 
+
 * Front End
 	* React 
 * Back End 
 	* Flask RESTful
 * Database
-	* Sqlite
+	* MariaDB / MySQL
 
 ## Database Schema
 
 ### Categories Table
 
-| Field | Type         | Null | KEY     | Default | Extra         |
-|-------|--------------|------|---------|---------|---------------|
-| id    | integer      | no   | primary |         | autoincrement |
-| name  | varchar(100) | no   |         |         | unique        |
+| Field | Type         | Null | KEY     | Default | Extra          |
+|-------|--------------|------|---------|---------|----------------|
+| id    | int          | no   | primary |         | auto_increment |
+| name  | varchar(100) | no   |         |         | unique         |
 
 ### Movies Table
 
-| Field       | Type         | Null | KEY     | Default     | Extra         |
-|-------------|--------------|------|---------|-------------|---------------|
-| id          | integer      | no   | primary |             | autoincrement |
-| title       | varchar(100) | no   |         |             | unique        |
-| image       | varchar(100) | no   |         | default.jpg |               |
-| rating      | float        | no   |         |             |               |
-| category_id | integer      | no   | foreign |             |               |
+| Field       | Type         | Null | KEY     | Default     | Extra          |
+|-------------|--------------|------|---------|-------------|----------------|
+| id          | int          | no   | primary |             | auto_increment |
+| title       | varchar(100) | no   |         |             | unique         |
+| image       | varchar(100) | no   |         | default.jpg |                |
+| rating      | float        | no   |         |             |                |
+| category_id | int          | no   | foreign |             |                |
 
 ## Setup
 

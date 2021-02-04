@@ -7,12 +7,18 @@ class FinalMeta(type(ABC), type(Resource)):
 
 class Api(ABC,Resource,metaclass=FinalMeta):
 
-    def __init__(self,database_url):
-        self.database_url = database_url
-        self.create_model()
+    def __init__(self,host,user,password,database):
+        self.create_model(
+            {
+                'host' : host,
+                'user' : user,
+                'password' : password,
+                'database' : database
+            }
+        )
 
     @abstractmethod
-    def create_model(self):
+    def create_model(self,config):
         pass
 
     @abstractmethod
@@ -37,6 +43,7 @@ class Api(ABC,Resource,metaclass=FinalMeta):
 
     def put(self,id):
         data = self.sanitize_data()
-        self.model.update(id,data)
+        data.append(id)
+        self.model.update(data)
 
         return self.model.get_by_id(id) , 200
