@@ -44,63 +44,44 @@ class Sidebar extends Component {
     const rating = event.target.rating.value
     const category = event.target.categorie.value
 
-    alert(event.target.file.files.length);
-
     const formAdd = new FormData()
     formAdd.append('title', title)
     formAdd.append('rating', rating)
-    
     formAdd.append('category',category)
 
-    if (event.target.file.files.length != 0){ // ON AS UNE IMAGE
-
-      alert("Uploading New image...");
-     
-      const formImg = new FormData()
-			formImg.append('file', files[0])
-			fetch('http://localhost:5000/upload', {
-				method: 'POST',
-				body: formImg
-			})
-			.then(response => response.json())
-			.then(data => {	
-        
-        console.log(data);
-        console.log(data.filename);
-        //UPLOAD IMAGE DONE, WE NEED TO POST SEND MOVIE INFO TO API NOW
-         //the previous POST returns the uploaded file name
-         alert("Image Uploaded !");
-         formAdd.append('image', data.filename)
-
-        
-      })
-			.catch(error => {
-        console.error(error)
-        console.log(formImg)
-        alert("Image Uploade FAILED !");
-			})
-    }
-    else{
-      formAdd.append('image', "")
-    }
-    //event.target.NAMEOFINPUTFORIMAGE.files
-			//Add Movie POST
-
-      console.log(formAdd)
-      
-
+    const post_data = (formData) => {
       fetch('http://localhost:5000/movies', {
         method: 'POST',
-        body: formAdd
+        body: formData
       })
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        alert("ajezjaze");
+      .then(data => { console.log(data); })
+      .catch(error => { console.log(error); })
+    };
+
+    const upload_file = (formData) => {
+	  fetch('http://localhost:5000/upload', {
+	    method: 'POST',
+		body: formData
+	  })
+	  .then(response => response.json())
+	  .then(data => data.filename)
+      .then(filename => {
+        formAdd.append('image',filename);
+        post_data(formAdd);
       })
-      .catch(error => {
-        alert("ERRoR");
-			})
+	  .catch(error => { console.error(error) })
+    };
+
+    if (event.target.file.files.length != 0) {
+      let file = new FormData();
+	  file.append('file', files[0]);
+      upload_file(file);
+    }
+    else {
+      formAdd.append('image','');
+      post_data(formAdd);
+    }
 
   }
 

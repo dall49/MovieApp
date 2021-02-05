@@ -33,7 +33,7 @@ MovieApp is a small CRUD app that allows you to create a movie and see your save
 |-------------|--------------|------|---------|-------------|----------------|
 | id          | int          | no   | primary |             | auto_increment |
 | title       | varchar(100) | no   |         |             | unique         |
-| image       | varchar(100) | no   |         | default.jpg |                |
+| image       | varchar(100) | no   |         | default.png |                |
 | rating      | float        | no   |         |             |                |
 | category_id | int          | no   | foreign |             |                |
 

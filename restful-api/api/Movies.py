@@ -2,6 +2,7 @@
 from models import Movie
 from api import Api
 from flask import request
+import os
 
 class Movies(Api):
 
@@ -25,3 +26,17 @@ class Movies(Api):
         ]
 
         return data
+    
+    def delete(self,id=None):
+        valid_file = lambda f : f != 'default.png'
+        if id is None:
+            self.model.delete()
+            for file in os.listdir('img/'):
+                if valid_file(file):
+                    os.remove('img/'+file)
+        else:
+            filename = self.model.delete_by_id(id)
+            if valid_file(filename):
+                os.remove('img/'+filename)
+
+        return {} , 204

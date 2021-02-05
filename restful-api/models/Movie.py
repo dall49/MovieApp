@@ -73,9 +73,14 @@ class Movie(Database):
         self.connection.commit()
 
     def delete_by_id(self,id):
+        sql = 'select image from movies where id = %s;'
+        self.cursor.execute(sql,[id,])
+        filename = self.cursor.fetchone()['image']
         sql = 'delete from movies where id = %s;'
         self.cursor.execute(sql,[id,])
         self.connection.commit()
+
+        return filename
 
     def update(self,data):
         title = data[0]
