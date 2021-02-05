@@ -7,5 +7,5 @@ database = {
 }
 
 upload = {
-    'url' : 'img/'
+    'upload_dir' : 'img/'
 }
