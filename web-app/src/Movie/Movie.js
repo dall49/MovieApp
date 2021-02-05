@@ -67,7 +67,6 @@ class Movie extends Component {
 			})
 			.catch(error => {
         console.error(error);
-        alert("EERRORR");
 			})
 
       
@@ -136,7 +135,7 @@ class Movie extends Component {
         {items.map(items => (
 
 
-          <div style={{backgroundImage:"url(img/"+items.image+")"}} class={items.category} id={items.id}>
+          <div style={{backgroundImage:"url(localhost:5000/img/"+items.image+")"}} class={items.category} id={items.id}>
             
             <div class="Ratings">{items.rating}</div> 
             <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items)}></i>

@@ -36,44 +36,70 @@ class Sidebar extends Component {
 */
 
   addmovie(event) {
+
+    
     event.preventDefault();
     const files = event.target.file.files
     const title = event.target.title.value
     const rating = event.target.rating.value
     const category = event.target.categorie.value
-    //event.target.NAMEOFINPUTFORIMAGE.files
-			const formImg = new FormData()
+
+    alert(event.target.file.files.length);
+
+    const formAdd = new FormData()
+    formAdd.append('title', title)
+    formAdd.append('rating', rating)
+    
+    formAdd.append('category',category)
+
+    if (event.target.file.files.length != 0){ // ON AS UNE IMAGE
+
+      alert("Uploading New image...");
+     
+      const formImg = new FormData()
 			formImg.append('file', files[0])
 			fetch('http://localhost:5000/upload', {
 				method: 'POST',
 				body: formImg
 			})
 			.then(response => response.json())
-			.then(data => {
+			.then(data => {	
         
+        console.log(data);
+        console.log(data.filename);
         //UPLOAD IMAGE DONE, WE NEED TO POST SEND MOVIE INFO TO API NOW
-        const image_name = data.filename //the previous POST returns the uploaded file name
+         //the previous POST returns the uploaded file name
+         alert("Image Uploaded !");
+         formAdd.append('image', data.filename)
 
-        const formAdd = new FormData()
-        formAdd.append('title', title)
-        formAdd.append('rating', rating)
-        formAdd.append('image', image_name)
-        formAdd.append('category',category)
-
-        fetch('http://localhost:5000/movies', {
-          method: 'POST',
-          body: formAdd
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-        })
-
-
-			})
+        
+      })
 			.catch(error => {
         console.error(error)
         console.log(formImg)
+        alert("Image Uploade FAILED !");
+			})
+    }
+    else{
+      formAdd.append('image', "")
+    }
+    //event.target.NAMEOFINPUTFORIMAGE.files
+			//Add Movie POST
+
+      console.log(formAdd)
+      
+
+      fetch('http://localhost:5000/movies', {
+        method: 'POST',
+        body: formAdd
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        alert("ajezjaze");
+      })
+      .catch(error => {
+        alert("ERRoR");
 			})
 
   }
@@ -130,7 +156,7 @@ class Sidebar extends Component {
           <form class="px-4 py-3" id="addMov" onSubmit={this.addmovie}>
                 <div class="form-group">
                   <label for="movTitle">Movie Title</label>
-                  <input name="title" type="text" class="form-control" id="createTitle"  />
+                  <input name="title" type="text" class="form-control" id="createTitle" />
                 </div>
 
                 <div class="form-group" >
