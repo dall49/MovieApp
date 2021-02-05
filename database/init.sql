@@ -44,4 +44,4 @@ values
 	('Titanic',7.8,'titanic.jpg',5),
 	('Indiana Jones',8.4,'indiana_jones.jpg',3),
 	('Godzilla',6.4,'godzilla.jpg',2),
-	('Jurassic Park',8.1,'jurassic_park.jpg',2)
+	('Jurassic Park',8.1,'jurassic_park.jpg',2);

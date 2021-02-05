@@ -32,7 +32,6 @@ class Api(ABC,Resource,metaclass=FinalMeta):
 
     def post(self):
         data = self.sanitize_data()
-        print(data)
         id = self.model.create(data)
 
         return self.model.get_by_id(id) , 201

@@ -6,13 +6,13 @@ from api import Movies , Categories , Upload
 
 import config
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='img')
 CORS(app)
 api = Api(app)
 
 api.add_resource(
     Upload, 
-    '/upload', 
+    '/upload',
     resource_class_kwargs=config.upload
 )
 
