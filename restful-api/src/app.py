@@ -2,7 +2,6 @@
 from flask import Flask
 from flask_restful import Api 
 from flask_cors import CORS
-
 from api import Movies , Categories , Upload
 
 import config
@@ -33,4 +32,5 @@ if __name__ == '__main__':
     host = '0.0.0.0'
     port = 5000
     debug = True
+    
     app.run(host,port,debug)

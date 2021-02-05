@@ -39,7 +39,7 @@ class Api(ABC,Resource,metaclass=FinalMeta):
     def delete(self,id=None):
         self.model.delete() if id is None else self.model.delete_by_id(id)
 
-        return 204
+        return {} , 204
 
     def put(self,id):
         data = self.sanitize_data()
