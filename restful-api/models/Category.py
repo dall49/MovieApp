@@ -52,10 +52,7 @@ class Category(Database):
         try:
             self.cursor.execute(sql,data)
             self.connection.commit()
-            sql = 'select id from categories where name = %s;'
-            self.cursor.execute(sql,name)
-            return self.cursor.fetchone['id']
         except:
-            return {}
+            pass
 
 

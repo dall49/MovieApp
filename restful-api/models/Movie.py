@@ -87,18 +87,17 @@ class Movie(Database):
         category = data[3]
 
         category_id = self.get_category_id(category)
-        if category_id is None:
+        if category_id == False:
             self.create_category(category)
             category_id = self.get_category_id(category)
+        
+        data[3] = category_id 
 
         sql = 'update movies set title = %s , rating = %s , image = %s , category_id = %s where id = %s;'
         try:
             self.cursor.execute(sql,data)
             self.connection.commit()
-            sql = 'select id from movies where title = %s;'
-            self.cursor.execute(sql , title)
-            return self.cursor.fetchone()['id']
         except:
-            return {}
+            pass
 
 
