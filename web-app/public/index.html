@@ -151,6 +151,10 @@
         const category = event.target.categorie.value
         const id = event.target.idHolder.value
 
+        const old_name = document.getElementById("movImg").src.replace('http://localhost:5000/img/','');
+
+
+
         const formModif = new FormData()
         formModif.append('title', title)
         formModif.append('rating', rating)
@@ -193,8 +197,8 @@
       upload_file(file);
     }
     else {
-      alert("AIN'T NO FILE : " + event.target.file.files.length)
-      formModif.append('image','');
+
+      formModif.append('image', old_name);
       post_data(formModif);
     }
 
@@ -203,7 +207,7 @@
  
     //'http://localhost:5000/movies/'+ id
     //PUT
-
+    
           
       }
 
