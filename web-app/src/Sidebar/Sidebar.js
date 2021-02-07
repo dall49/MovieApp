@@ -35,8 +35,40 @@ class Sidebar extends Component {
 }
 */
 
+deleteAllMovies(){
+
+  if(window.confirm("Are you sure you want to delete ALL movies ?")){
+
+    fetch('http://localhost:5000/movies', {
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => { console.log(data); })
+    .catch(error => { console.log(error); })
+
+  }
+
+    
+
+
+}
+
+  delCategory(event){
+    const id = event.target.id.replace('DelC','');
+
+    if(window.confirm("Are you sure you want to delete ALL movies ?")){
+      fetch('http://localhost:5000/categories/'+id, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => { console.log(data); })
+      .catch(error => { console.log(error); })
+    }
+  }
+
   addmovie(event) {
 
+    console.log("Uploading movie initiated");
     
     event.preventDefault();
     const files = event.target.file.files
@@ -50,16 +82,21 @@ class Sidebar extends Component {
     formAdd.append('category',category)
 
     const post_data = (formData) => {
+      console.log('WE ARE GOING TO POST THIS FORM !');
+      console.log(formAdd.get('title'));
+        console.log(formAdd.get('rating'));
+        console.log(formAdd.get('category'));
       fetch('http://localhost:5000/movies', {
         method: 'POST',
         body: formData
       })
       .then(response => response.json())
-      .then(data => { console.log(data); })
-      .catch(error => { console.log(error); })
+      .then(data => {console.log('FORM UPLOADEEEEDD !'); console.log(data); })
+      .catch(error => {console.log('FORM FUCKING FAILED !'); console.log(error); })
     };
 
     const upload_file = (formData) => {
+      console.log("Uploading movie...");
 	  fetch('http://localhost:5000/upload', {
 	    method: 'POST',
 		body: formData
@@ -68,7 +105,13 @@ class Sidebar extends Component {
 	  .then(data => data.filename)
       .then(filename => {
         formAdd.append('image',filename);
+        console.log("Movie uploaded, Going to Post Data from for form :");
+        console.log(formAdd.get('title'));
+        console.log(formAdd.get('rating'));
+        console.log(formAdd.get('category'));
         post_data(formAdd);
+        console.log('MOVIE UPLOADED !');
+        
       })
 	  .catch(error => { console.error(error) })
     };
@@ -116,10 +159,11 @@ class Sidebar extends Component {
         {items.map(items => (
 
         <div class="form-check catego" style={{textAlign: "center",paddingTop: "20px",paddingBottom: "20px"}}>
-        <input class="form-check-input" type="checkbox" value="" id={"C"+items.id} style={{left: "50px"}} />
+        <input class="form-check-input" type="checkbox" value="" id={"C"+items.id}  style={{left: "50px"}} />
         <label class="form-check-label" for={"C"+items.id} style={{color: "white",cursor: "pointer"}}>
           {items.name}
         </label>
+        <i class="fas fa-times Cdelete" id={"DelC"+items.id} key={items.id} onClick={this.delCategory} ></i>
         </div>
 
         ))}
@@ -163,6 +207,8 @@ class Sidebar extends Component {
             
           </div>
         </div>
+
+        <button type="button" id="deleteallbtn" onClick={this.deleteAllMovies} class="btn btn-danger">Clear Movies</button>
 
       </React.Fragment>
 

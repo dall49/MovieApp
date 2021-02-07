@@ -6,9 +6,17 @@
 #sidehr{
     background-color:#24272a;width: 80%;height: 3px;
 }
-#sidebutton{
+#sidebutton, #deleteallbtn{
     margin-left: 20px;
 }
 #sidelabel{
     color: yellow;float: left;
+}
+
+#deleteallbtn{
+    margin-top: 25px;
+}
+.Cdelete{
+    color: red;
+    margin-left: 10px;
 }

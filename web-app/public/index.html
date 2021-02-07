@@ -90,7 +90,7 @@
           </div>
           <div style="float:  left;height: 90%;width: 40%;display: flex;justify-content: center;align-items: center;border-right: 0.5px solid grey;">
             <div style="height: 350px;width:220px;">
-              <img src="img/Godzilla.jpg" style="object-fit: cover;height: 100%;width: 100%;" id="movImg" />
+              <img src="" style="object-fit: cover;height: 100%;width: 100%;" id="movImg" />
             </div>
           </div>
           <div style="float:  left;height: 95%;width: 60%;justify-content: center;align-items: center;display: flex;">
@@ -117,7 +117,7 @@
                   </div>
                 
                 
-                <button name="idHolder" type="submit" id="modify" class="btn btn-primary"  >Modify</button>
+                <button name="idHolder" type="submit"  id="modify" class="btn btn-primary"  >Modify</button>
               </form>
             
           </div>
@@ -149,47 +149,61 @@
         const title = event.target.title.value
         const rating = event.target.ratings.value
         const category = event.target.categorie.value
-        const id = event.target.idHolder.id
-
-
-    
-    
-			const formImg = new FormData()
-			formImg.append('file', files[0])
-			fetch('http://localhost:5000/upload', {
-				method: 'POST',
-				body: formImg
-			})
-			.then(response => response.json())
-			.then(data => {
-        
-        //UPLOAD IMAGE DONE, WE NEED TO POST SEND MOVIE INFO TO API NOW
-        const image_name = data.filename //the previous POST returns the uploaded file name
+        const id = event.target.idHolder.value
 
         const formModif = new FormData()
         formModif.append('title', title)
         formModif.append('rating', rating)
-        formModif.append('image', image_name)
         formModif.append('category',category)
 
-        fetch('http://localhost:5000/movies/'+ id, {
-          method: 'PUT',
-          body: formModif
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          document.getElementById("wrapper").style.opacity = "0";
-          document.getElementById("wrapper").style.visibility = "hidden";
-        })
+    const post_data = (formData) => {
+      console.log("HERE IS THE FORM MODIF : ");
+        console.log(formModif.get('title'));
+        console.log(formModif.get('rating'));
+        console.log(formModif.get('category'));
+        console.log(formModif.get('image'));
+      
+      fetch('http://localhost:5000/movies/'+ id, {
+        method: 'PUT',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => { console.log(data); })
+      .catch(error => { console.log(error); })
+    };
 
+    const upload_file = (formData) => {
+	  fetch('http://localhost:5000/upload', {
+	    method: 'POST',
+		body: formData
+	  })
+	  .then(response => response.json())
+	  .then(data => data.filename)
+      .then(filename => {
+        formModif.append('image',filename);
+ 
+        post_data(formModif);
+      })
+	  .catch(error => { console.error(error) })
+    };
 
-			})
-			.catch(error => {
-        console.error(error)
-        console.log(formImg)
-        alert("Sorry ! There was an error submitting your changes ")
-			})
+    if (event.target.file.files.length != 0) {
+      let file = new FormData();
+	  file.append('file', files[0]);
+      upload_file(file);
+    }
+    else {
+      alert("AIN'T NO FILE : " + event.target.file.files.length)
+      formModif.append('image','');
+      post_data(formModif);
+    }
+
+    document.getElementById("wrapper").style.opacity = "0";
+    document.getElementById("wrapper").style.visibility = "hidden";
+ 
+    //'http://localhost:5000/movies/'+ id
+    //PUT
+
           
       }
 

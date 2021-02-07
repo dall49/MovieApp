@@ -21,13 +21,13 @@ class Movie extends Component {
     document.getElementById("wrapper").style.opacity = "1";
     document.getElementById("wrapper").style.visibility = "visible";
 
-    document.getElementById("movImg").src = "img/"+Mcid.image;
+    document.getElementById("movImg").src = "http://localhost:5000/img/"+Mcid.image;
 
     document.getElementById("movTitle").value = Mcid.title;
 
     document.getElementById("movRating").value = Mcid.rating;
 
-    document.getElementById("modify").id = Mcid.id;
+    document.getElementById('modify').value =  Mcid.id; // You change the id of the element modify, so when you reclick it can't find it's id :/
 
 
 
@@ -101,6 +101,7 @@ class Movie extends Component {
         })
       })
   }
+  
 
   render() {
 
@@ -135,7 +136,7 @@ class Movie extends Component {
         {items.map(items => (
 
 
-          <div style={{backgroundImage:"url(localhost:5000/img/"+items.image+")"}} class={items.category} id={items.id}>
+          <div key={items.id} style={{backgroundImage:"url(http://localhost:5000/img/"+items.image+")"}} class={items.category + " MoviePoster"} id={items.id}>
             
             <div class="Ratings">{items.rating}</div> 
             <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items)}></i>
