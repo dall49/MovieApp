@@ -3,14 +3,13 @@
 version: "3.9"
 services:
   flaskapi:
-    build: 
-      context: ./restful-api
+    build: ./restful-api
     container_name: flaskapi
     restart: always
     depends_on:
       - mariadb
     ports:
-      - "8000"
+      - "8000:8000"
     environment:
       - HOST=mariadb
       - PORT=3306
@@ -19,19 +18,13 @@ services:
       - PASSWORD=${dbpass}
     networks:
       - backend
-      - frontend
     volumes:
       - images:/app/img
   reactapp:
-    build: 
-      context: ./web-app
-      args:
-        url: ${url}
+    build: ./web-app
     container_name: webapp
     ports:
       - "5000:5000"
-    networks:
-      - frontend
   mariadb:
     image: "mariadb:latest"
     restart: always
@@ -49,8 +42,6 @@ services:
       - data:/var/lib/mysql
 
 networks:
-  frontend:
-    driver: bridge
   backend:
     driver: bridge
 
