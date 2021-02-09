@@ -7,22 +7,15 @@ class FinalMeta(type(ABC), type(Resource)):
 
 class Api(ABC,Resource,metaclass=FinalMeta):
 
-    def __init__(self,host,user,password,database):
-        self.create_model(
-            {
-                'host' : host,
-                'user' : user,
-                'password' : password,
-                'database' : database
-            }
-        )
+    def __init__(self):
+        self.create_model()
 
     @abstractmethod
-    def create_model(self,config):
+    def create_model(self):
         pass
 
     @abstractmethod
-    def sanitize_data(self) -> tuple:
+    def sanitize_data(self) -> list:
         pass
 
     def get(self,id=None):

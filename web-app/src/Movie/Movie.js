@@ -21,7 +21,7 @@ class Movie extends Component {
     document.getElementById("wrapper").style.opacity = "1";
     document.getElementById("wrapper").style.visibility = "visible";
 
-    document.getElementById("movImg").src = "http://localhost:5000/img/"+Mcid.image;
+    document.getElementById("movImg").src = "http://localhost:8000/img/"+Mcid.image;
 
     document.getElementById("movTitle").value = Mcid.title;
 
@@ -56,7 +56,7 @@ class Movie extends Component {
       document.getElementById(Mcid.id).style.opacity = "0";
       document.getElementById(Mcid.id).style.display = "none";
 
-			fetch('http://localhost:5000/movies/'+Mcid.id, {
+			fetch('http://localhost:8000/movies/'+Mcid.id, {
 				method: 'DELETE'
 			})
 			.then(response => response.json())
@@ -92,7 +92,7 @@ class Movie extends Component {
 
 
   componentDidMount(){
-    fetch('http://127.0.0.1:5000/movies')
+    fetch('http://127.0.0.1:8000/movies')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -136,7 +136,7 @@ class Movie extends Component {
         {items.map(items => (
 
 
-          <div key={items.id} style={{backgroundImage:"url(http://localhost:5000/img/"+items.image+")"}} class={items.category + " MoviePoster"} id={items.id}>
+          <div key={items.id} style={{backgroundImage:"url(http://localhost:8000/img/"+items.image+")"}} class={items.category + " MoviePoster"} id={items.id}>
             
             <div class="Ratings">{items.rating}</div> 
             <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items)}></i>

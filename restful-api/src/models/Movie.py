@@ -1,11 +1,11 @@
 
 
-from models import Database
+from src.models import Database
 
 class Movie(Database):
 
-    def __init__(self,host,user,password,database):
-        super().__init__(host,user,password,database)
+    def __init__(self):
+        super().__init__()
 
     def get(self):
         sql = '''
@@ -75,12 +75,14 @@ class Movie(Database):
     def delete_by_id(self,id):
         sql = 'select image from movies where id = %s;'
         self.cursor.execute(sql,[id,])
-        filename = self.cursor.fetchone()['image']
-        sql = 'delete from movies where id = %s;'
-        self.cursor.execute(sql,[id,])
-        self.connection.commit()
-
-        return filename
+        fetched = self.cursor.fetchone()
+        if fetched is not None:
+            filename = fetched['image']
+            sql = 'delete from movies where id = %s;'
+            self.cursor.execute(sql,[id,])
+            self.connection.commit()
+            return filename
+        return False
 
     def update(self,data):
         title = data[0]

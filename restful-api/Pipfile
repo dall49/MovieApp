@@ -8,7 +8,7 @@ flask-restful = "*"
 flask = "*"
 flask-cors = "*"
 mysql-connector-python = "*"
-requests = "*"
+gunicorn = "*"
 
 [dev-packages]
 

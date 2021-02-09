@@ -1,21 +1,17 @@
 
-from models import Movie
-from api import Api
+from src.models import Movie
+from src.api import Api
 from flask import request
-import os
+from os import remove , listdir
+from os.path import exists
 
 class Movies(Api):
 
-    def __init__(self,host,user,password,database):
-        super().__init__(host,user,password,database)
+    def __init__(self):
+        super().__init__()
     
-    def create_model(self,config):
-        self.model = Movie(
-            config['host'],
-            config['user'],
-            config['password'],
-            config['database']
-        )
+    def create_model(self):
+        self.model = Movie()
 
     def sanitize_data(self):
         data = [
@@ -31,12 +27,14 @@ class Movies(Api):
         valid_file = lambda f : f != 'default.png'
         if id is None:
             self.model.delete()
-            for file in os.listdir('img/'):
+            for file in listdir('img/'):
                 if valid_file(file):
-                    os.remove('img/'+file)
+                    remove('img/'+file)
         else:
             filename = self.model.delete_by_id(id)
-            if valid_file(filename):
-                os.remove('img/'+filename)
+            if filename != False:
+                if exists('img/'+filename):
+                    if valid_file(filename):
+                        remove('img/'+filename)
 
         return {} , 204

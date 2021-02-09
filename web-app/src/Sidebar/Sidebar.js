@@ -39,7 +39,7 @@ deleteAllMovies(){
 
   if(window.confirm("Are you sure you want to delete ALL movies ?")){
 
-    fetch('http://localhost:5000/movies', {
+    fetch('http://localhost:8000/movies', {
       method: 'DELETE'
     })
     .then(response => response.json())
@@ -57,7 +57,7 @@ deleteAllMovies(){
     const id = event.target.id.replace('DelC','');
 
     if(window.confirm("Are you sure you want to delete ALL movies ?")){
-      fetch('http://localhost:5000/categories/'+id, {
+      fetch('http://localhost:8000/categories/'+id, {
         method: 'DELETE'
       })
       .then(response => response.json())
@@ -86,7 +86,7 @@ deleteAllMovies(){
       console.log(formAdd.get('title'));
         console.log(formAdd.get('rating'));
         console.log(formAdd.get('category'));
-      fetch('http://localhost:5000/movies', {
+      fetch('http://localhost:8000/movies', {
         method: 'POST',
         body: formData
       })
@@ -97,7 +97,7 @@ deleteAllMovies(){
 
     const upload_file = (formData) => {
       console.log("Uploading movie...");
-	  fetch('http://localhost:5000/upload', {
+	  fetch('http://localhost:8000/upload', {
 	    method: 'POST',
 		body: formData
 	  })
@@ -129,7 +129,7 @@ deleteAllMovies(){
   }
 
   componentDidMount(){
-    fetch('http://127.0.0.1:5000/categories')
+    fetch('http://127.0.0.1:8000/categories')
       .then(res => res.json())
       .then(json => {
         this.setState({

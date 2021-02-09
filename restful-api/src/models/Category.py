@@ -1,10 +1,10 @@
 
-from models import Database
+from src.models import Database
 
 class Category(Database):
     
-    def __init__(self,host,user,password,database):
-        super().__init__(host,user,password,database)
+    def __init__(self):
+        super().__init__()
 
     def get(self):
         sql = 'select * from categories order by id;'
@@ -32,8 +32,6 @@ class Category(Database):
         return self.cursor.fetchone()['id']
     
     def delete(self):
-        sql = 'delete from movies;'
-        self.cursor.execute(sql)
         sql = 'delete from categories;'
         self.cursor.execute(sql)
         self.connection.commit()

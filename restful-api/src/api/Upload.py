@@ -1,17 +1,19 @@
 
 from flask_restful import Resource 
 from flask import request
-import os
 from werkzeug.utils import secure_filename
+from os import mkdir
+from os.path import splitext , join , isdir
+from config import upload as config
 
 class Upload(Resource):
 
-    def __init__(self,upload_dir):
-        self.upload_dir = upload_dir
+    def __init__(self):
+        self.dir = config['upload_dir']
         self.allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg', '.gif']
 
     def valid_extensions(self,filename):
-        extension = os.path.splitext(filename)[1]
+        extension = splitext(filename)[1]
         return False if extension not in self.allowed_extensions else True
 
     def post(self):
@@ -26,10 +28,10 @@ class Upload(Resource):
         elif not self.valid_extensions(filename):
             return {'status':'failed','message':'Wrong file extension'} , 400
 
-        if not os.path.isdir(self.upload_dir):
-            os.mkdir(self.upload_dir)
+        if not isdir(self.dir):
+            mkdir(self.dir)
 
         filename = secure_filename(filename)
-        file.save( os.path.join(self.upload_dir,filename) )
+        file.save( join(self.dir,filename) )
 
         return {'status':'success','filename':filename } , 201
