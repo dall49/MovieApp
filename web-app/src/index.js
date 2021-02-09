@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Header from './Header'
 import Movie from './Movie'
+import Test from './Test'
 import Sidebar from './Sidebar'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +11,17 @@ import Image from './image.php';
 
 
 
+
+
+
+ReactDOM.render(
+  <React.StrictMode>
+    <Movie />
+  </React.StrictMode>,
+
+  
+  document.getElementById('Row')
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,14 +42,11 @@ ReactDOM.render(
 );
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Movie />
-  </React.StrictMode>,
 
-  
-  document.getElementById('Row')
-);
+
+
+
+
 
 
 

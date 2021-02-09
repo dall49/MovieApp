@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import './Movie.css';
 
 
-
-
-
 //<img src={image} style={{height:'100%',width:'100%',objectFit:'cover'}}></img>
 
 //const Movies2Component = Movies.map((movie) => <Movie key={movie.id} title={movie.title} rating={movie.rating} image={movie.image} />);
@@ -13,13 +10,15 @@ import './Movie.css';
 class Movie extends Component {
 
   
+  
  
-  editMovie(Mcid, category_list){
+  editMovie(Mcid, category_list,index){
 
     //display of the Pop up div with movie clicked info 
 
     document.getElementById("wrapper").style.opacity = "1";
     document.getElementById("wrapper").style.visibility = "visible";
+
 
     document.getElementById("movImg").src = "http://localhost:5000/img/"+Mcid.image;
 
@@ -41,21 +40,26 @@ class Movie extends Component {
 
     // Sending the Update to the API in the index.html <script> tag when button is clicked
 
+    //let updated_items = this.state.items;
+    //var updatedComment = update(updated_items[index], {text: {$set: text}}); 
 
-    
+    /*
+    if (index !== -1){
+      updated_list.splice(index,1); //Remove item from status array that has position items[index]
+      this.setState({items:updated_list}) //Update component array state with new array
+    }
 
-
+    */
 
 
   }
 
-  deleteMovie(Mcid){
+  deleteMovie(Mcid,index){
 
 
     if (window.confirm('Are you sure you want to delete ' + Mcid.title + ' from your Movie list ?')) {
-      document.getElementById(Mcid.id).style.opacity = "0";
-      document.getElementById(Mcid.id).style.display = "none";
-
+      
+      
 			fetch('http://localhost:5000/movies/'+Mcid.id, {
 				method: 'DELETE'
 			})
@@ -68,14 +72,32 @@ class Movie extends Component {
 			.catch(error => {
         console.error(error);
 			})
+    
+      let updated_list = this.state.items; // Make Copy of Status array of items
 
+      if (index !== -1){
+        updated_list.splice(index,1); //Remove item from status array that has position items[index]
+        this.setState({items:updated_list}) //Update component array state with new array
+      }
       
-      //Send request to API to remove Movie from DB containing ID = MCid
-      console.log(document.getElementById("MC"+Mcid.id));
+
     } else {
       // Do nothing!
       console.log('Thing was not saved to the database.');
     }
+
+    
+
+  }
+
+updateSB(event){
+
+
+
+    this.setState({
+      searchTerm: event.target.value
+    })
+
   }
 
 
@@ -86,13 +108,16 @@ class Movie extends Component {
     this.state = {
       items: [],
       isLoaded: false,
+      searchTerm: ''
     }
+    this.updateSB = this.updateSB.bind(this);
   }
 
 
 
-  componentDidMount(){
-    fetch('http://127.0.0.1:5000/movies')
+
+  async componentDidMount(){
+    await fetch('http://127.0.0.1:5000/movies')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -101,6 +126,9 @@ class Movie extends Component {
         })
       })
   }
+
+
+ 
   
 
   render() {
@@ -108,20 +136,23 @@ class Movie extends Component {
     var { isLoaded, items} = this.state;
 
     if(!isLoaded){
-      document.getElementById("staticheadcontainer").innerHTML = ""; //hide Searchbar
+      
+
+
       return <React.Fragment>
         <div class="row justify-content-center" style={{height:"50px",color:"white",marginTop:"340px"}}>
         <h1>Seems like your Back-End server is offline</h1>
         </div>
           <div class="row justify-content-center" style={{height:"500px"}}>
           
-          <img src="https://i.pinimg.com/originals/21/83/f3/2183f3dd15b25d1bfc923199e13f3ef6.png" style={{height:"500px",width:"500px",marginTop:"190px"}} />
+          <img alt="Backend Server Offline" src="https://i.pinimg.com/originals/21/83/f3/2183f3dd15b25d1bfc923199e13f3ef6.png" style={{height:"500px",width:"500px",marginTop:"190px"}} />
 
           </div> 
       </React.Fragment>
     }
     else{
 
+      //const [searchTerm, setSearchTerm] = useState('');
       //const category_list = {items}.items.category;
       //console.log(category_list);
 
@@ -129,18 +160,36 @@ class Movie extends Component {
       let category_list = []
       items.forEach(item => category_list.push("<option name='"+item.category+"'>"+item.category +"</option>"));
       
-
+      
 
       return  <React.Fragment>
+
+
+        <input id="special"
+                    type="text" 
+                    placeholder={this.state.searchTerm} 
+                    onChange={this.updateSB} 
+                />
         
-        {items.map(items => (
+        {items.filter((item)=>{
+
+          console.log("test")
+          console.log(item.title)
+
+          if ( this.state.searchTerm == ''){ // We want to verify with our search tearm is equal to what we want
+            return item
+          }
+          else if (item.title.toLowerCase().includes(this.searchTerm.toLowerCase())){
+            return item
+          }
+        }).map((items, index) => (
 
 
-          <div key={items.id} style={{backgroundImage:"url(http://localhost:5000/img/"+items.image+")"}} class={items.category + " MoviePoster"} id={items.id}>
+          <div key={index} style={{backgroundImage:"url(http://localhost:5000/img/"+items.image+")"}} class={items.category + " MoviePoster"} id={items.id}>
             
             <div class="Ratings">{items.rating}</div> 
-            <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items)}></i>
-              <div class="MovieContainer" id={"MC"+items.id} onClick={this.editMovie.bind(this, items,category_list)}  > 
+            <i class="fas fa-times Mdelete" id={"D"+items.id} onClick={this.deleteMovie.bind(this, items,index)}></i>
+              <div class="MovieContainer" id={"MC"+items.id} onClick={this.editMovie.bind(this, items,category_list,index)}  > 
                   <i class="fas fa-edit Medit"></i>
               </div>
           
