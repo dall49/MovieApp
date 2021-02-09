@@ -8,16 +8,18 @@
 
 ## Description
 
-MovieApp is a small CRUD app that allows you to create a movie and see your saved movies.
+MovieApp is a small CRUD app that allows you to manage your movies.
 
 ## Technologies
 
 * Front End
-	* React 
+	* React
 * Back End 
 	* Flask RESTful
 * Database
 	* MariaDB / MySQL
+* Deployment
+	* Docker
 
 ## Database Schema
 

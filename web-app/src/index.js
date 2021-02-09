@@ -6,10 +6,6 @@ import Movie from './Movie'
 import Sidebar from './Sidebar'
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Image from './image.php';
-
-
-
 
 ReactDOM.render(
   <React.StrictMode>

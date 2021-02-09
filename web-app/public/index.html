@@ -151,7 +151,7 @@
         const category = event.target.categorie.value
         const id = event.target.idHolder.value
 
-        const old_name = document.getElementById("movImg").src.replace('http://localhost:8000/img/','');
+        const old_name = document.getElementById("movImg").src.replace('${API_URL}/img/','');
 
 
 
@@ -167,7 +167,7 @@
         console.log(formModif.get('category'));
         console.log(formModif.get('image'));
       
-      fetch('http://localhost:8000/movies/'+ id, {
+      fetch('${API_URL}/movies/'+ id, {
         method: 'PUT',
         body: formData
       })
@@ -177,7 +177,7 @@
     };
 
     const upload_file = (formData) => {
-	  fetch('http://localhost:8000/upload', {
+	  fetch('${API_URL}/upload', {
 	    method: 'POST',
 		body: formData
 	  })
@@ -205,7 +205,7 @@
     document.getElementById("wrapper").style.opacity = "0";
     document.getElementById("wrapper").style.visibility = "hidden";
  
-    //'http://localhost:8000/movies/'+ id
+    //'${API_URL}/movies/'+ id
     //PUT
     
           

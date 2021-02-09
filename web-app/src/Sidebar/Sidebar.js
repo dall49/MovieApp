@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import './Sidebar.css';
-import Image from '../image.php'
-
-
 
 class Sidebar extends Component {
 
@@ -39,7 +36,7 @@ deleteAllMovies(){
 
   if(window.confirm("Are you sure you want to delete ALL movies ?")){
 
-    fetch('http://localhost:8000/movies', {
+    fetch(`${process.env.REACT_APP_API_URL}/movies`, {
       method: 'DELETE'
     })
     .then(response => response.json())
@@ -57,7 +54,7 @@ deleteAllMovies(){
     const id = event.target.id.replace('DelC','');
 
     if(window.confirm("Are you sure you want to delete ALL movies ?")){
-      fetch('http://localhost:8000/categories/'+id, {
+      fetch(`${process.env.REACT_APP_API_URL}/categories/`+id, {
         method: 'DELETE'
       })
       .then(response => response.json())
@@ -86,7 +83,7 @@ deleteAllMovies(){
       console.log(formAdd.get('title'));
         console.log(formAdd.get('rating'));
         console.log(formAdd.get('category'));
-      fetch('http://localhost:8000/movies', {
+      fetch(`${process.env.REACT_APP_API_URL}/movies`, {
         method: 'POST',
         body: formData
       })
@@ -97,7 +94,7 @@ deleteAllMovies(){
 
     const upload_file = (formData) => {
       console.log("Uploading movie...");
-	  fetch('http://localhost:8000/upload', {
+	  fetch(`${process.env.REACT_APP_API_URL}/upload`, {
 	    method: 'POST',
 		body: formData
 	  })
@@ -129,7 +126,7 @@ deleteAllMovies(){
   }
 
   componentDidMount(){
-    fetch('http://127.0.0.1:8000/categories')
+    fetch(`${process.env.REACT_APP_API_URL}/categories`)
       .then(res => res.json())
       .then(json => {
         this.setState({

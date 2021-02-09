@@ -37,7 +37,7 @@ class Database:
     def connect(self):
         connection = mysql.connect(
             host=config['HOST'],
-            user=config['USER'],
+            user=config['DBUSER'],
             password=config['PASSWORD'],
             database=config['DATABASE'],
             port=config['PORT']
