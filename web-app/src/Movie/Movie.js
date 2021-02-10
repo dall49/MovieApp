@@ -165,24 +165,47 @@ updateSB(event){
       return  <React.Fragment>
 
 
-        <input id="special"
-                    type="text" 
-                    placeholder={this.state.searchTerm} 
-                    onChange={this.updateSB} 
-                />
         
-        {items.filter((item)=>{
 
-          console.log("test")
-          console.log(item.title)
+
+          <div id="staticheadcontainer">
+            <div class="row justify-content-center">
+              <div style="height: 100px;display: inline;margin-top: 10px;" class="col-md-5">
+                <h1 style="margin-top: 20px;text-align: center;color: white;">New Releases</h1>
+              </div>
+            </div>
+        
+            <div class="row justify-content-center" >
+              <div style="height: 20px;display: inline;" class="col-md-5">
+                <form class="form-inline my-2 my-lg-0 justify-content-center" >
+                  <div id="Shere">
+                      <input id="special"
+                        type="text" 
+                        placeholder={this.state.searchTerm} 
+                        onChange={this.updateSB} 
+                    />
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                  </div>
+                  
+                  
+                </form>
+              </div>
+            </div>
+          </div>
+
+        <div style="width: 100%;height: 720px;">
+          <div class="row justify-content-center" style="height: 370px;margin-top: 30px;" id="Row">
+          {items.filter((item)=>{
+
+
 
           if ( this.state.searchTerm == ''){ // We want to verify with our search tearm is equal to what we want
             return item
           }
-          else if (item.title.toLowerCase().includes(this.searchTerm.toLowerCase())){
+          else if (item.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())){
             return item
           }
-        }).map((items, index) => (
+          }).map((items, index) => (
 
 
           <div key={index} style={{backgroundImage:"url(http://localhost:5000/img/"+items.image+")"}} class={items.category + " MoviePoster"} id={items.id}>
@@ -192,11 +215,37 @@ updateSB(event){
               <div class="MovieContainer" id={"MC"+items.id} onClick={this.editMovie.bind(this, items,category_list,index)}  > 
                   <i class="fas fa-edit Medit"></i>
               </div>
+
+          </div>
+
+
+          ))} 
           
           </div>
-          
 
-      ))} 
+       
+          <div class="row justify-content-center" style="height: 300px;margin-top: 50px;">
+            <div style="width: 350px;height: 100%;background-color: black;">
+
+            </div>
+            <div style="width: 350px;height: 100%;background-color: black;margin-left: 100px;">
+
+            </div>
+            <div style="width: 350px;height: 100%;background-color: black;margin-left: 100px;">
+
+            </div>
+          </div>
+
+     
+          
+          
+        </div>
+
+
+
+
+        
+        
       
       </React.Fragment>
 

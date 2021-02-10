@@ -20,7 +20,7 @@ ReactDOM.render(
   </React.StrictMode>,
 
   
-  document.getElementById('Row')
+  document.getElementById('main')
 );
 
 ReactDOM.render(
