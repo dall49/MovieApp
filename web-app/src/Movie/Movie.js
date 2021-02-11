@@ -170,16 +170,16 @@ updateSB(event){
 
           <div id="staticheadcontainer">
             <div class="row justify-content-center">
-              <div style="height: 100px;display: inline;margin-top: 10px;" class="col-md-5">
-                <h1 style="margin-top: 20px;text-align: center;color: white;">New Releases</h1>
+              <div id="NR"  class="col-md-5">
+                <h1 id="NRH1" >New Releases</h1>
               </div>
             </div>
         
             <div class="row justify-content-center" >
-              <div style="height: 20px;display: inline;" class="col-md-5">
+              <div id="colSB" class="col-md-5">
                 <form class="form-inline my-2 my-lg-0 justify-content-center" >
                   <div id="Shere">
-                      <input id="special"
+                      <input 
                         type="text" 
                         placeholder={this.state.searchTerm} 
                         onChange={this.updateSB} 
@@ -193,8 +193,8 @@ updateSB(event){
             </div>
           </div>
 
-        <div style="width: 100%;height: 720px;">
-          <div class="row justify-content-center" style="height: 370px;margin-top: 30px;" id="Row">
+        <div id="rowBigC" >
+          <div class="row justify-content-center" id="Row">
           {items.filter((item)=>{
 
 
@@ -224,17 +224,6 @@ updateSB(event){
           </div>
 
        
-          <div class="row justify-content-center" style="height: 300px;margin-top: 50px;">
-            <div style="width: 350px;height: 100%;background-color: black;">
-
-            </div>
-            <div style="width: 350px;height: 100%;background-color: black;margin-left: 100px;">
-
-            </div>
-            <div style="width: 350px;height: 100%;background-color: black;margin-left: 100px;">
-
-            </div>
-          </div>
 
      
           
