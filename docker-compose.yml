@@ -3,7 +3,8 @@
 version: "3.9"
 services:
   flaskapi:
-    build: ./restful-api
+    image: "restfulapi:latest"
+    build: restful-api/
     container_name: flaskapi
     restart: always
     depends_on:
@@ -21,7 +22,8 @@ services:
     volumes:
       - images:/app/img
   reactapp:
-    build: ./web-app
+    image: "webapp:latest"
+    build: web-app/
     container_name: webapp
     ports:
       - "5000:5000"
