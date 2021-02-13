@@ -6,7 +6,7 @@ pipeline {
 		USER = "movieapp"
 		PASS = "secret_user"
 		DB = "movieapp"
-		PORT = "3306"
+		PORT = "3307"
 	}
 	stages {
 		stage("Build") {
@@ -19,12 +19,11 @@ pipeline {
 		}
 		stage("Test") {
 			steps {
-				sh "docker run -d --name db -p ${PORT}:${PORT} -e MYSQL_ROOT_PASSWORD=${ROOT} -e MYSQL_DATABASE=${DB} -e MYSQL_USER=${USER} -e MYSQL_PASSWORD=${PASS} mariadb:latest && sleep 5"
+				sh "docker run -d --name db_test -p ${PORT}:${PORT} -e MYSQL_ROOT_PASSWORD=${ROOT} -e MYSQL_DATABASE=${DB} -e MYSQL_USER=${USER} -e MYSQL_PASSWORD=${PASS} mariadb:latest && sleep 5"
 				dir("restful-api") {
 					sh "${PIPENV} run python tests/MoviesTest.py"
 					sh "${PIPENV} run python tests/CategoriesTest.py"
 				}
-				sh "docker rm -f db"	
 			}
 		}
 		stage("Deploy") {
@@ -44,5 +43,13 @@ pipeline {
 				sh "docker-compose up --build"
 			}
 		}
+	}
+	post {
+		always {
+			sh "docker rm -f db_test"
+			dir("restapi-api") {
+				sh "${PIPENV} --rm"
+			}
+		}		
 	}
 }
