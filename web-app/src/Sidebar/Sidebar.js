@@ -153,7 +153,7 @@ deleteAllMovies(){
     }
     else{
      
-      return <React.Fragment>
+      return <div id="sidenav">
 
         <h4 href="#" id="sideh4">Filter <i class="fas fa-sort"></i></h4>
 
@@ -211,7 +211,7 @@ deleteAllMovies(){
 
         <button type="button" id="deleteallbtn" onClick={this.deleteAllMovies} class="btn btn-danger">Clear Movies</button>
 
-      </React.Fragment>
+        </div>
 
 
     }

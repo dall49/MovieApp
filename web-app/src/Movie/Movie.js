@@ -139,7 +139,7 @@ updateSB(event){
       
 
 
-      return <React.Fragment>
+      return <div id="main">
         <div class="row justify-content-center" style={{height:"50px",color:"white",marginTop:"340px"}}>
         <h1>Seems like your Back-End server is offline</h1>
         </div>
@@ -148,7 +148,7 @@ updateSB(event){
           <img alt="Backend Server Offline" src="https://i.pinimg.com/originals/21/83/f3/2183f3dd15b25d1bfc923199e13f3ef6.png" style={{height:"500px",width:"500px",marginTop:"190px"}} />
 
           </div> 
-      </React.Fragment>
+      </div>
     }
     else{
 
