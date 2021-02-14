@@ -19,7 +19,8 @@ pipeline {
 		}
 		stage("Test") {
 			steps {
-				sh "docker run -d --name db_test -p ${PORT}:${PORT} -e MYSQL_ROOT_PASSWORD=${ROOT} -e MYSQL_DATABASE=${DB} -e MYSQL_USER=${USER} -e MYSQL_PASSWORD=${PASS} mariadb:latest && sleep 5"
+				sh "docker run -d --name db_test -p ${PORT}:${PORT} -e MYSQL_ROOT_PASSWORD=${ROOT} -e MYSQL_DATABASE=${DB} -e MYSQL_USER=${USER} -e MYSQL_PASSWORD=${PASS} mariadb:latest"
+				sh "docker exec db_test bash -c 'while ! mysqladmin ping -h localhost -p${ROOT} --silent; do sleep 1; done'"
 				dir("restful-api") {
 					sh "${PIPENV} run python tests/MoviesTest.py"
 					sh "${PIPENV} run python tests/CategoriesTest.py"

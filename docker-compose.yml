@@ -1,18 +1,17 @@
-
 ---
 version: "3.9"
 services:
-  flaskapi:
+  api:
     image: "restfulapi:latest"
     build: restful-api/
-    container_name: flaskapi
+    container_name: movie_api
     restart: always
     depends_on:
-      - mariadb
+      - database
     ports:
       - "8000:8000"
     environment:
-      - HOST=mariadb
+      - HOST=database
       - PORT=3306
       - DATABASE=${db}
       - DBUSER=${dbuser}
@@ -21,16 +20,16 @@ services:
       - backend
     volumes:
       - images:/app/img
-  reactapp:
+  web:
     image: "webapp:latest"
     build: web-app/
-    container_name: webapp
+    container_name: movie_app
     ports:
-      - "5000:5000"
-  mariadb:
+      - "80:80"
+  database:
     image: "mariadb:latest"
     restart: always
-    container_name: mariadb
+    container_name: movie_db
     environment:
       - MYSQL_ROOT_PASSWORD=${dbroot}
       - MYSQL_DATABASE=${db}
@@ -52,3 +51,4 @@ volumes:
     driver: local
   images:
     driver: local
+
