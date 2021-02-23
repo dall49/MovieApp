@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import './Sidebar.css';
 
+
+
 class Sidebar extends Component {
 
 
@@ -36,7 +38,7 @@ deleteAllMovies(){
 
   if(window.confirm("Are you sure you want to delete ALL movies ?")){
 
-    fetch(`${process.env.REACT_APP_API_URL}/movies`, {
+    fetch(`http://${window.location.host}:${process.env.REACT_APP_API_PORT}/movies`, {
       method: 'DELETE'
     })
     .then(response => response.json())
@@ -54,7 +56,7 @@ deleteAllMovies(){
     const id = event.target.id.replace('DelC','');
 
     if(window.confirm("Are you sure you want to delete ALL movies ?")){
-      fetch(`${process.env.REACT_APP_API_URL}/categories/`+id, {
+      fetch(`http://${window.location.host}:${process.env.REACT_APP_API_PORT}/categories/`+id, {
         method: 'DELETE'
       })
       .then(response => response.json())
@@ -83,7 +85,7 @@ deleteAllMovies(){
       console.log(formAdd.get('title'));
         console.log(formAdd.get('rating'));
         console.log(formAdd.get('category'));
-      fetch(`${process.env.REACT_APP_API_URL}/movies`, {
+      fetch(`http://${window.location.host}:${process.env.REACT_APP_API_PORT}/movies`, {
         method: 'POST',
         body: formData
       })
@@ -94,7 +96,7 @@ deleteAllMovies(){
 
     const upload_file = (formData) => {
       console.log("Uploading movie...");
-	  fetch(`${process.env.REACT_APP_API_URL}/upload`, {
+	  fetch(`http://${window.location.host}:${process.env.REACT_APP_API_PORT}/upload`, {
 	    method: 'POST',
 		body: formData
 	  })
@@ -113,7 +115,7 @@ deleteAllMovies(){
 	  .catch(error => { console.error(error) })
     };
 
-    if (event.target.file.files.length != 0) {
+    if (event.target.file.files.length !== 0) {
       let file = new FormData();
 	  file.append('file', files[0]);
       upload_file(file);
@@ -125,8 +127,10 @@ deleteAllMovies(){
 
   }
 
+
+
   componentDidMount(){
-    fetch(`${process.env.REACT_APP_API_URL}/categories`)
+    fetch(`http://${window.location.host}:${process.env.REACT_APP_API_PORT}/categories`)
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -153,14 +157,14 @@ deleteAllMovies(){
 
         <h4 href="#" id="sideh4">Filter <i class="fas fa-sort"></i></h4>
 
-        {items.map(items => (
+        {items.map((items, index) => (
 
-        <div class="form-check catego" style={{textAlign: "center",paddingTop: "20px",paddingBottom: "20px"}}>
+        <div class="form-check catego" key={index} style={{textAlign: "center",paddingTop: "20px",paddingBottom: "20px"}}>
         <input class="form-check-input" type="checkbox" value="" id={"C"+items.id}  style={{left: "50px"}} />
         <label class="form-check-label" for={"C"+items.id} style={{color: "white",cursor: "pointer"}}>
           {items.name}
         </label>
-        <i class="fas fa-times Cdelete" id={"DelC"+items.id} key={items.id} onClick={this.delCategory} ></i>
+        <i class="fas fa-times Cdelete" id={"DelC"+items.id}  onClick={this.delCategory} ></i>
         </div>
 
         ))}

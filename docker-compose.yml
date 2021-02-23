@@ -2,7 +2,7 @@
 version: "3.9"
 services:
   api:
-    image: "restfulapi:latest"
+    image: "restapi"
     build: restful-api/
     container_name: movie_api
     restart: always
@@ -21,13 +21,13 @@ services:
     volumes:
       - images:/app/img
   web:
-    image: "webapp:latest"
+    image: "webapp"
     build: web-app/
     container_name: movie_app
     ports:
       - "80:80"
   database:
-    image: "mariadb:latest"
+    image: "mariadb"
     restart: always
     container_name: movie_db
     environment:
