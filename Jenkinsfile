@@ -2,7 +2,6 @@
 node {
 	checkout scm
 	def PIPENV = "~/.local/bin/pipenv"
-	def REGISTRY = "redalegzali"
 
 	stage("Build") {
 		dir("restful-api") {
@@ -34,20 +33,18 @@ node {
 	}
 
 	stage("Deploy") {
+		sh "docker-compose build"
 		docker.withRegistry("" , "DockerCreds") {
 			dir("restful-api") {
-				def restapi = docker.build("${REGISTRY}/restapi")
-				restapi.push("latest")
+				docker.build("${params.REGISTRY}/restapi").push("latest")
 			}
 			dir("web-app") {
-				def webapp = docker.build("${REGISTRY}/webapp")
-				webapp.push("latest")
+				docker.build("${params.REGISTRY}/webapp").push("latest")
 			}
 		}
 	}
 
 	stage("Run") {
-		sh "docker-compose build"
 		try {
 			sh "docker-compose up -d"
 		}
