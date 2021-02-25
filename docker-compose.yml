@@ -3,7 +3,7 @@ version: "3.9"
 services:
   api:
     image: "restapi"
-    build: restful-api/
+    build: restapi/
     container_name: movie_api
     restart: always
     depends_on:
@@ -22,7 +22,7 @@ services:
       - images:/app/img
   web:
     image: "webapp"
-    build: web-app/
+    build: webapp/
     container_name: movie_app
     ports:
       - "80:80"
