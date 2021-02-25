@@ -34,17 +34,17 @@ node {
 		}
 	}
 
-	//stage("Deploy") {
-		//sh "docker-compose build"
-		//docker.withRegistry("" , "DockerCreds") {
-			//dir("restapi") {
-				//docker.build("${params.REGISTRY}/restapi").push("latest")
-			//}
-			//dir("webapp") {
-				//docker.build("${params.REGISTRY}/webapp").push("latest")
-			//}
-		//}
-	//}
+	stage("Deploy") {
+		sh "docker-compose build"
+		docker.withRegistry("" , "DockerCreds") {
+			dir("restapi") {
+				docker.build("${params.REGISTRY}/restapi").push("latest")
+			}
+			dir("webapp") {
+				docker.build("${params.REGISTRY}/webapp").push("latest")
+			}
+		}
+	}
 
 	stage("Run") {
 		try {

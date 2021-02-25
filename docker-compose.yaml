@@ -66,5 +66,5 @@ volumes:
   images:
     driver: nfs
     driver_opts:
-      share: 192.168.33.10:/mysql
+      share: 192.168.33.10:/images
 
