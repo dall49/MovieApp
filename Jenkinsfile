@@ -35,7 +35,6 @@ node {
 	}
 
 	stage("Deploy") {
-		sh "docker-compose build"
 		docker.withRegistry("" , "DockerCreds") {
 			dir("restapi") {
 				docker.build("${params.REGISTRY}/restapi").push("latest")
@@ -48,7 +47,7 @@ node {
 
 	stage("Run") {
 		try {
-			sh "docker stack deploy -c docker-compose.yaml movieapp"
+			sh "docker-compose up --build -d"
 		}
 		catch (Exception e) {
 			error "Unable to start services.Probably because something is running on port 80 or 8000."

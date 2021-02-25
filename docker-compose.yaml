@@ -5,10 +5,6 @@ services:
     image: redalegzali/restapi
     build: restapi/
     container_name: movie_api
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
     restart: always
     depends_on:
       - database
@@ -28,20 +24,12 @@ services:
     image: redalegzali/webapp
     build: webapp/
     container_name: movie_app
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
     ports:
       - "80:80"
   database:
     image: mariadb
     restart: always
     container_name: movie_db
-    deploy:
-      replicas: 2
-      restart_policy:
-        condition: on-failure
     environment:
       - MYSQL_ROOT_PASSWORD=${dbroot}
       - MYSQL_DATABASE=${db}
@@ -56,15 +44,11 @@ services:
 
 networks:
   backend:
-    driver: overlay
+    driver: bridge
 
 volumes:
   data:
-    driver: nfs
-    driver_opts:
-      share: 192.168.33.10:/mysql
+    driver: local
   images:
-    driver: nfs
-    driver_opts:
-      share: 192.168.33.10:/images
+    driver: local
 
